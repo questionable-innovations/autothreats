@@ -52,32 +52,32 @@
             "zorder": 0
         },
         "park": {
-            "fc": "#AABD8C",
-            "ec": "#87996b",
+            "fc": "#fff",
+            "ec": "#000",
             "lw": 1,
             "zorder": 1
         },
         "forest": {
-            "fc": "#78A58D",
-            "ec": "#658a76",
+            "fc": "#fff",
+            "ec": "#000",
             "lw": 1,
             "zorder": 1
         },
         "garden": {
-            "fc": "#a9d1a9",
-            "ec": "#8ab58a",
+            "fc": "#fff",
+            "ec": "#000",
             "lw": 1,
             "zorder": 1
         },
         "water": {
-            "fc": "#92D5F2",
-            "ec": "#6da8c2",
+            "fc": "#fff",
+            "ec": "#000",
             "lw": 1,
             "zorder": 2
         },
         "streets": {
-            "fc": "#F1E6D0",
-            "ec": "#2F3737",
+            "fc": "#fff",
+            "ec": "#000",
             "lw": 1.5,
             "zorder": 3
         },
@@ -85,12 +85,10 @@
             "palette": [
                 "#fff"
             ],
-            "ec": "#2F3737",
+            "ec": "#000",
             "lw": 1,
             "zorder": 4
         }
     },
-    "circle": null,
-    "radius": null,
     "dilate": 0
 }
