@@ -1,0 +1,94 @@
+{
+    "layers": {
+        "streets": {
+            "width": {
+                "trunk": 6,
+                "primary": 6,
+                "secondary": 5,
+                "tertiary": 4,
+                "residential": 3.5,
+                "pedestrian": 3,
+                "footway": 3,
+                "path": 3
+            }
+        },
+        "building": {
+            "tags": {
+                "building": true,
+                "leisure": [
+                    "track",
+                    "pitch"
+                ]
+            }
+        },
+        "water": {
+            "tags": {
+                "natural": [
+                    "water",
+                    "bay"
+                ]
+            }
+        },
+        "park": {
+            "tags": {
+                "leisure": "park"
+            }
+        },
+        "forest": {
+            "tags": {
+                "landuse": "forest"
+            }
+        },
+        "garden": {
+            "tags": {
+                "leisure": "garden"
+            }
+        }
+    },
+    "style": {
+        "perimeter": {
+            "fill": false,
+            "lw": 0,
+            "zorder": 0
+        },
+        "park": {
+            "fc": "#fff",
+            "ec": "#000",
+            "lw": 1,
+            "zorder": 1
+        },
+        "forest": {
+            "fc": "#fff",
+            "ec": "#000",
+            "lw": 1,
+            "zorder": 1
+        },
+        "garden": {
+            "fc": "#fff",
+            "ec": "#000",
+            "lw": 1,
+            "zorder": 1
+        },
+        "water": {
+            "fc": "#fff",
+            "ec": "#000",
+            "lw": 1,
+            "zorder": 2
+        },
+        "streets": {
+            "fc": "#fff",
+            "ec": "#000",
+            "lw": 1.5,
+            "zorder": 3
+        },
+        "building": {
+            "palette": [
+                "#fff"
+            ],
+            "ec": "#000",
+            "lw": 1,
+            "zorder": 4
+        }
+    },
+    "dilate": 0
+}
