@@ -13,7 +13,7 @@ RUN apk update \
 
 RUN pip install --upgrade pip
 
-COPY . .
+COPY ./svgmapapi .
 
 RUN chmod +x entrypoint.sh
 
