@@ -115,6 +115,8 @@ def callGCodePlot(data: str) -> Tuple[str, glinkplot.Plotter]:
         print('comment-delimiters=' + ('none' if plotter.comment is None else plotter.comment))
 
 
+    shader.unshadedThreshold = 0
+
     if toolMode == 'cut':
         shader.unshadedThreshold = 0
         optimizationTime = 0
