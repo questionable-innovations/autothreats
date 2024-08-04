@@ -218,7 +218,6 @@ Commands available:
                     print("Unknown command.")
         else:
             sendCommand(c)
-    s.close()
     
 if __name__ == '__main__':
     import sys

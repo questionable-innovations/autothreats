@@ -4,6 +4,11 @@ from generateGcode import callGCodePlot
 import gcodeplot.gcodeplotutils.sendgcode as sendgcode
 import serial.tools.list_ports
 
+
+import re
+
+gcode_regex = r"(?:G0?[01].+(?:[XYZ]\d))|(?:G28)"
+
 def classify_device(port):
     # Open a connection to the device
     print("Testing device")
@@ -32,6 +37,8 @@ def send_letter(serial, letter):
     print("Received: ", serial.readline())
 
 def send_gcode_file(serial, plotter, file_name):
+    sleep(2)
+    print("SENDING FILE", file_name)
     file_content = ""
     with open(file_name, "r") as file:
         file_content = file.read()
@@ -44,15 +51,20 @@ def send_gcode_file(serial, plotter, file_name):
     sleep(0.5)
     serial.reset_input_buffer()
     for command in flat_commands:
+        serial.reset_input_buffer()
         print("Sending command: ", command)
-        serial.write(str.encode(command))
-        if command.startswith("G28") or command.startswith("G01") or (command.startswith("G00") and not (command.startswith("G00 S") or command.startswith("G00 E"))):
-            while(1): # Wait until the former gcode has been completed.
-                text = serial.readline()
-                if text:
-                    print("Received: ", text)
-                if serial.readline().startswith(b'ok'):
-                    break
+        serial.write(str.encode(command + "\n"))
+        
+        # if re.match(gcode_regex, command):
+        while(1): # Wait until the former gcode has been completed.
+            text = serial.readline()
+            if text:
+                print("Received: ", text)
+            if text.startswith(b'ok'):
+                break
+
+        else:
+            print("Not waiting for response")
 
 
 
@@ -88,7 +100,7 @@ def sendToPrinter(gcode: str, plotter: Plotter):
 
     if arduino_serial is not None:
         send_letter(arduino_serial,"s")
-        sleep(1)
+        sleep(5)
 
 
     if printer_serial is not None:
