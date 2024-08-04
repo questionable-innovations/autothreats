@@ -3,6 +3,8 @@ from gcodeplot.gcodeplot import Plotter
 from generateGcode import callGCodePlot
 import gcodeplot.gcodeplotutils.sendgcode as sendgcode
 import serial.tools.list_ports
+import websockets
+import asyncio
 
 def classify_device(port):
     # Open a connection to the device
@@ -89,9 +91,15 @@ def main():
         
             
     print(sendToPrinter(gcode_out, plotter))
+
+async def run():
+    async with websockets.connect("wss://autothreat-svg-generator.host.qrl.nz/jobs", max_size=1_000_000_000) as websocket:
+        while True:
+            data = await websocket.recv()
+            with open("test_drawing.svg", "+w") as f:
+                f.write(data)
+            main()
+                
         
 if __name__ == "__main__":
-    while True:
-        input("Press enter to draw")
-        main()
-        
+    asyncio.get_event_loop().run_until_complete(run())
