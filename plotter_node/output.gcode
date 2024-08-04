@@ -1,14 +1,5 @@
-G00 S1; endstops
-G00 E0; no extrusion
-G01 S1; endstops
-G01 E0; no extrusion
-G21; millimeters
-G91;
-G0 F3000.0 Z45.000; pen park !!Zsafe
-G90; absolute
-G28 Y; home
-G28 X; home
-G28 Z; home
+;
+
 G00 F3000.0 Z45.500; pen park !!Zpark
 G00 F4800.0 Y0.000; !!Ybottom
 G00 F4800.0 X0.000; !!Xleft
@@ -385,9 +376,4 @@ G01 F3600.0 X54.885 Y87.559; draw !!Xleft+54.885 Ybottom+87.559
 G01 F3600.0 X54.795 Y86.339; draw !!Xleft+54.795 Ybottom+86.339
 G01 F3600.0 X54.765 Y85.115; draw !!Xleft+54.765 Ybottom+85.115
 G00 F3000.0 Z45.500; pen park !!Zpark
-G91;
-G0 F3000.0 Z45.000; pen park !!Zsafe
-G90; absolute
-G00 F3000.0 X191 Y211; Top Right Point
-G00 F3000.0 Z0.500; Down to the paper
-G00 F3000.0 X175 Y0; Down to the paper
+;

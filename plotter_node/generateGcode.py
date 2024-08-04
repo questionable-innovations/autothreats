@@ -7,14 +7,6 @@ import gcodeplot.gcodeplotutils.anneal as anneal
 import config.config as ender_config 
 
 def callGCodePlot(data: str) -> Tuple[str, glinkplot.Plotter]:
-    
-    initGCode = ""
-    with open("config/startup.gcode") as f:
-        initGCode = f.read()
-
-    nextFileGCode = ""
-    with open("config/nextfile.gcode") as f:
-        nextFileGCode = f.read()
 
 
     final_gcode_out = ""
@@ -27,7 +19,7 @@ def callGCodePlot(data: str) -> Tuple[str, glinkplot.Plotter]:
     scalingMode = glinkplot.SCALE_NONE
     shader = glinkplot.Shader()
     align = [glinkplot.ALIGN_NONE, glinkplot.ALIGN_NONE]
-    plotter = glinkplot.Plotter(initCode=initGCode, xyMin=ender_config.xyMin, xyMax=ender_config.xyMax, drawSpeed=ender_config.drawSpeed, moveSpeed=ender_config.moveSpeed, zSpeed=ender_config.zSpeed, workZ=ender_config.workZ, liftDeltaZ=ender_config.liftDeltaZ, safeDeltaZ=ender_config.safeDeltaZ, endCode=nextFileGCode)
+    plotter = glinkplot.Plotter(initCode=";\n", xyMin=ender_config.xyMin, xyMax=ender_config.xyMax, drawSpeed=ender_config.drawSpeed, moveSpeed=ender_config.moveSpeed, zSpeed=ender_config.zSpeed, workZ=ender_config.workZ, liftDeltaZ=ender_config.liftDeltaZ, safeDeltaZ=ender_config.safeDeltaZ, endCode=";\n")
     hpglOut = False
     strokeAll = False
     extractColor = None

@@ -1,5 +1,5 @@
 from time import sleep
-from gcodeplot.gcodeplot import Plotter
+from gcodeplot.gcodeplot import Plotter, processCode
 from generateGcode import callGCodePlot
 import gcodeplot.gcodeplotutils.sendgcode as sendgcode
 import serial.tools.list_ports
@@ -18,9 +18,6 @@ def classify_device(port):
 
     port.reset_input_buffer()
 
-    # Close the connection
-    port.close()
-
     if exp == b"wrong":
         return "arduino"
     else:
@@ -30,9 +27,33 @@ def classify_device(port):
 def send_letter(serial, letter):
     assert len(letter) == 1
     serial.reset_input_buffer()
-    serial.write(str.encode("letter"))
+    serial.write(str.encode(letter))
     print("Sent letter: ", letter)
     print("Received: ", serial.readline())
+
+def send_gcode_file(serial, plotter, file_name):
+    file_content = ""
+    with open(file_name, "r") as file:
+        file_content = file.read()
+    
+    commands = processCode(file_content, plotter)
+    flat_commands = []
+    for command in commands:
+        flat_commands += command.split("\n")
+    
+    sleep(0.5)
+    serial.reset_input_buffer()
+    for command in flat_commands:
+        print("Sending command: ", command)
+        serial.write(str.encode(command))
+        if command.startswith("G28") or command.startswith("G01") or (command.startswith("G00") and not (command.startswith("G00 S") or command.startswith("G00 E"))):
+            while(1): # Wait until the former gcode has been completed.
+                text = serial.readline()
+                if text:
+                    print("Received: ", text)
+                if serial.readline().startswith(b'ok'):
+                    break
+
 
 
 def sendToPrinter(gcode: str, plotter: Plotter):
@@ -48,24 +69,34 @@ def sendToPrinter(gcode: str, plotter: Plotter):
     for p in ports:
         if p.pid == SERIAL_VENDOR_ID and p.vid == SERIAL_PRODUCT_ID:
             port = serial.Serial(p.device, 115200, timeout=2)
+            sleep(2.5)
             device = classify_device(port)
             if device == "printer":
-                printer_serial = p.device
+                print("Printer found on port: ", p.device)
+                printer_serial = port
             elif device == "arduino":
-                sleep(2.5)
+                print("Arduino found on port: ", p.device)
                 arduino_serial = port
     
+    # FIRST - run startup
+    if printer_serial is not None:
+        # processCode
+        send_gcode_file(printer_serial, plotter, "config/startup.gcode")
+        send_gcode_file(printer_serial, plotter, "config/printstart.gcode")
+
+
+
     if arduino_serial is not None:
-        print("Arduino found on port: ", arduino_serial)
         send_letter(arduino_serial,"s")
+        sleep(1)
 
 
     if printer_serial is not None:
         print("Printer not found, ignoring")
-        print("Printer found on port: ", printer_serial)
-        sendSpeed = 115200
         
-        sendgcode.sendGcode(port=printer_serial, speed=sendSpeed, commands=gcode, plotter=plotter, variables=plotter.variables, formulas=plotter.formulas)
+        sendgcode.sendGcode(printer_serial, commands=gcode, plotter=plotter, variables=plotter.variables, formulas=plotter.formulas)
+        send_gcode_file(printer_serial, plotter, "config/printend.gcode")
+
     else:
         print("WOULD PRINT NOW IF PRINTER EXISTED")
         sleep(20)
@@ -74,7 +105,12 @@ def sendToPrinter(gcode: str, plotter: Plotter):
     if arduino_serial is not None:
         print("Arduino found on port: ", arduino_serial)
         send_letter(arduino_serial,"e")
+        sleep(1)
         arduino_serial.close()
+    
+    if printer_serial is not None:
+        
+        printer_serial.close()
 
 
 def main():
@@ -91,7 +127,7 @@ def main():
     print(sendToPrinter(gcode_out, plotter))
         
 if __name__ == "__main__":
-    while True:
+    while True: 
         input("Press enter to draw")
         main()
         
