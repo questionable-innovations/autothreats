@@ -1,4 +1,4 @@
 {
-    "schema-version": 2,
+    "schemaVersion": 2,
     "dockerfilePath": "./svg-service/Dockerfile"
 }
