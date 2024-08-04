@@ -122,7 +122,9 @@ def sendGcode(port, commands, speed=115200, xonxoff=True, quiet = False, gcodePa
             command = 'N' + str(state.lineNumber) + ' ' + c
             command += '*' + str(checksum(command))
             s.write(str.encode(command+'\n'))
-            s.flushInput()
+            while(1): # Wait untile the former gcode has been completed.
+                if s.readline().startswith(b'ok'):
+                    break
             state.lineNumber += 1
     
     for c in commands:
