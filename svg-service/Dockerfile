@@ -11,7 +11,7 @@ RUN cargo build --release
 
 FROM debian:bookworm
 RUN apt update && apt install inkscape texlive-full -y
-COPY assets/* /usr/share/fonts/
+COPY svg-service/assets/* /usr/share/fonts/
 RUN fc-cache -f -v
 WORKDIR /app
 COPY --from=builder /app/target/release/svg-service svg-service
