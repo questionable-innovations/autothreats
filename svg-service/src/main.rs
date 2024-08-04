@@ -144,7 +144,7 @@ async fn submit(
     let client = reqwest::Client::new();
 
     match client
-        .get("https://autothreat-svg-map.host.qrl.nz/")
+        .get("http://srv-captain--autothreat-svg-map:8000")
         .query(&[(
             "q",
             format!("{address_line_1} {address_line_2} + {suburb} + {city} + {postcode}"),
