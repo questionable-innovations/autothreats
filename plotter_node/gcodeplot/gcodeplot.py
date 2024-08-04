@@ -40,6 +40,8 @@ class Plotter(object):
             endCode=None):
         self.xyMin = xyMin
         self.xyMax = xyMax
+
+        print(xyMin, xyMax)
         self.drawSpeed = drawSpeed
         self.moveSpeed = moveSpeed
         self.workZ = workZ
@@ -328,7 +330,7 @@ def penColor(pens, pen):
     else:
         return (0.,0.,0.)
 
-def emitGcode(data, pens = {}, plotter=Plotter(), scalingMode=SCALE_NONE, align = None, tolerance=0, gcodePause="@pause", pauseAtStart = False, simulation = False):
+def emitGcode(data, pens = {}, plotter=Plotter(), scalingMode=SCALE_NONE, align = None, tolerance=0., gcodePause="@pause", pauseAtStart = False, simulation = False):
     if len(data) == 0:
         return None
 

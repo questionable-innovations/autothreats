@@ -22,7 +22,7 @@ def linearTemperature(u):
 def exponentialTemperature(u):
     return .006 ** u
     
-def optimize(lines, maxSteps=None, k=0.0001, temperature=exponentialTemperature, timeout=30, retries=2, quiet=False):
+def optimize(lines, maxSteps=None, k=0.0001, temperature=exponentialTemperature, timeout=30., retries=2, quiet=False):
     t00 = time.time()
 
     if not quiet: 
